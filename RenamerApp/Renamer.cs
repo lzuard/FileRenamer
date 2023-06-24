@@ -34,11 +34,12 @@ public static class Renamer
     /// </summary>
     private static void Rename(string[] files, string[] names)
     {
+        
         try
         {
             for (int i = 0; i < Math.Min(files.Length, names.Length); i++)
             {
-                File.Move(files[i], Path.GetDirectoryName(files[i])+"/"+names[i]);
+                File.Move(files[i], Path.GetDirectoryName(files[i])+"/"+names[i]+Path.GetExtension(files[i]));
             }
             Console.WriteLine("Renaming has been done successful");
         }
@@ -64,13 +65,14 @@ public static class Renamer
         //Get files from directory and read names
         var files = Directory.GetFiles(filesPath);
         var names = File.ReadAllLines(txtPath);
+        Array.Sort(files);
         
         //Ask user if everything correct
         Console.WriteLine($"\nFound {files.Length} files and {names.Length} names, so this is going to happen:");
         for (int i = 0; i < Math.Min(files.Length, names.Length); i++)
         {
             names[i] = $"{i + 1}. {names[i]}";
-            Console.WriteLine(Path.GetFileName(files[i]).PadRight(20)+ " ---> " + names[i]);
+            Console.WriteLine(Path.GetFileName(files[i]).PadRight(20)+ " ---> " + names[i]+Path.GetExtension(files[i]));
         }
         
         while (true)
